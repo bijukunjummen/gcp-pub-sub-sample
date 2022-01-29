@@ -1,0 +1,4 @@
+rootProject.name="pub-sub-sample"
+
+include "client-lib-pub-sub-sample"
+include "spring-cloud-gcp-pub-sub-sample"

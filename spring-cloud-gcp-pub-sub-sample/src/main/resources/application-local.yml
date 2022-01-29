@@ -1,0 +1,9 @@
+pubsub:
+  topic: sampletopic
+  subscriber-id: samplesubscription
+
+spring:
+  cloud:
+    gcp:
+      pubsub:
+        emulator-host: "localhost:8934"
