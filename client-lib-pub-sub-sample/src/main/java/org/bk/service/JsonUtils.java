@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bk.model.Message;
 
-public class JsonUtils {
+public final class JsonUtils {
     public static <T> String writeValueAsString(T obj, ObjectMapper objectMapper) {
         try {
             return objectMapper.writeValueAsString(obj);

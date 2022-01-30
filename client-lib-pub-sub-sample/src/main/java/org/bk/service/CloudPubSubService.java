@@ -50,6 +50,8 @@ public class CloudPubSubService implements PubSubService {
 
     @Override
     public Flux<Message> retrieve() {
+        // Purely for demonstration purpose..this is not backpressure safe and can overwhelm the jvm if there are
+        // too many messages in the GCP topic
         return Flux.create(sink -> {
             MessageReceiver receiver = (PubsubMessage message, AckReplyConsumer consumer) -> {
                 String rawData = message.getData().toStringUtf8();

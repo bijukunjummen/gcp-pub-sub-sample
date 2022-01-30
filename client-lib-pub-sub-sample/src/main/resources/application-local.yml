@@ -1,5 +1,5 @@
 pubsub:
   topic: sampletopic
-  subscriber-id: samplesubscription
+  subscriber-id: "sampletopic.samplesub"
   project: sampleproj
   host-port: "localhost:8934"

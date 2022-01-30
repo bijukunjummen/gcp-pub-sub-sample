@@ -36,3 +36,15 @@ curl -v \
    "payload": "sample-payload"
 }'
 ```
+
+Content should get published to a topic.
+The application subscribes to the topic and prints the content to the console
+```shell
+[ault-executor-0] org.bk.service.MessageProcessor          : Processing message: Message[id=test-id-100, payload=sample-payload]
+[ault-executor-0] org.bk.service.MessageProcessor          : Processing message: Message[id=test-id-100, payload=sample-payload]
+[ault-executor-0] org.bk.service.MessageProcessor          : Processing message: Message[id=test-id-100, payload=sample-payload]
+[ault-executor-0] org.bk.service.MessageProcessor          : Processing message: Message[id=test-id-100, payload=sample-payload]
+[ault-executor-0] org.bk.service.MessageProcessor          : Processing message: Message[id=test-id-100, payload=sample-payload]
+[ault-executor-0] org.bk.service.MessageProcessor          : Processing message: Message[id=test-id-100, payload=sample-payload]
+[ault-executor-0] org.bk.service.MessageProcessor          : Processing message: Message[id=test-id-100, payload=sample-payload]
+```

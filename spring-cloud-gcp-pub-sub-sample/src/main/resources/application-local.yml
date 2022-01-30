@@ -1,6 +1,6 @@
 pubsub:
   topic: sampletopic
-  subscriber-id: samplesubscription
+  subscriber-id: "sampletopic.samplesub"
 
 spring:
   cloud:
