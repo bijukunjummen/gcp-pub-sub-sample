@@ -15,9 +15,14 @@ gcloud config set api_endpoint_overrides/pubsub http://localhost:8934/
 export PUBSUB_EMULATOR_HOST=localhost:8934
 export PUBSUB_PROJECT_ID=sampleproj
 
-gcloud pubsub topics create sample-topic
+# These don't work with the emulator! The application takes care of creating the topic and the subscription
+#gcloud pubsub topics create sample-topic
+#gcloud pubsub subscriptions create sample-subscription --topic=sample-topic
+```
 
-gcloud pubsub subscriptions create sample-subscription --topic=sample-topic
+## Start the application
+```shell
+../gradlew bootRun 
 ```
 
 ## Request Messages

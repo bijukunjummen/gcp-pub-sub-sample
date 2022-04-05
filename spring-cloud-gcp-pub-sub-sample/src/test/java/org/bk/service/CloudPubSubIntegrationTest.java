@@ -49,7 +49,7 @@ class CloudPubSubIntegrationTest {
                     "pubsub.topic=sampletopic",
                     "pubsub.subscriber-id=subid",
                     "pubsub.project=sampleproj",
-                    "pubsub.host-port=" + emulator.getEmulatorEndpoint()
+                    "spring.cloud.gcp.pubsub.emulator-host=" + emulator.getEmulatorEndpoint()
             ).applyTo(applicationContext.getEnvironment());
         }
     }

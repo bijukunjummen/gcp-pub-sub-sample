@@ -3,7 +3,6 @@ package org.bk.service;
 import com.google.api.core.ApiFuture;
 import com.google.api.core.ApiFutureCallback;
 import com.google.api.core.ApiFutures;
-import com.google.common.util.concurrent.MoreExecutors;
 import reactor.core.publisher.Mono;
 
 public class ApiFutureUtil {
@@ -20,7 +19,7 @@ public class ApiFutureUtil {
                     sink.success(result);
                 }
             };
-            ApiFutures.addCallback(apiFuture, callback, MoreExecutors.directExecutor());
+            ApiFutures.addCallback(apiFuture, callback, Runnable::run);
         });
     }
 }
