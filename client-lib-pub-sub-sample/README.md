@@ -25,11 +25,6 @@ export PUBSUB_PROJECT_ID=sampleproj
 ../gradlew bootRun 
 ```
 
-## Request Messages
-```shell
-curl http://localhost:8080/messages
-```
-
 ## Publish
 ```shell
 curl -v \

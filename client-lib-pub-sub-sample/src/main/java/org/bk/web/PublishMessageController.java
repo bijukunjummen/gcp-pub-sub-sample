@@ -24,5 +24,4 @@ public class PublishMessageController {
     public Mono<ResponseEntity<Message>> publishMessage(@RequestBody Message message) {
         return pubSubService.publish(message).thenReturn(ResponseEntity.ok(message));
     }
-
 }
