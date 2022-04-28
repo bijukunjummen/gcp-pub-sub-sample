@@ -20,6 +20,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation platform('com.google.cloud:libraries-bom:25.1.0')
 	implementation('com.google.cloud:google-cloud-pubsub')
+	implementation('com.google.cloud:google-cloud-logging-logback')
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
