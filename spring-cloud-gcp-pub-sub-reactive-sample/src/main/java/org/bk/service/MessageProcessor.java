@@ -20,9 +20,11 @@ public class MessageProcessor {
 
     @PostConstruct
     void process() {
-        pubSubService.retrieve(message -> {
-            LOGGER.info("Processing message: {}", message.toString());
-        });
+        pubSubService.retrieve()
+                .doOnNext(message -> {
+                    LOGGER.info("Processing message: {}", message.toString());
+                })
+                .subscribe();
         LOGGER.info("Triggered processing of messages");
     }
 }

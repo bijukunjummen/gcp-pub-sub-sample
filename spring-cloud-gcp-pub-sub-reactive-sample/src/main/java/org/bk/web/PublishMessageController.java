@@ -22,9 +22,6 @@ public class PublishMessageController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<Message>> publishMessage(@RequestBody Message message) {
-        return Mono.defer(() -> {
-            pubSubService.publish(message);
-            return Mono.just(ResponseEntity.ok(message));
-        });
+        return pubSubService.publish(message).thenReturn(ResponseEntity.ok(message));
     }
 }

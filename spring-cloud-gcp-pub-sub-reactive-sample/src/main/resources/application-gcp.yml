@@ -1,0 +1,3 @@
+pubsub:
+  topic: sampletopic
+  subscriber-id: samplesubscription

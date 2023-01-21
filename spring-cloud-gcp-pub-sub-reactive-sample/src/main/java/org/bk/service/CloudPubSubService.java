@@ -14,10 +14,10 @@ import org.bk.model.PubSubProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
-import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
 
 @Service
 public class CloudPubSubService implements PubSubService {
@@ -27,6 +27,7 @@ public class CloudPubSubService implements PubSubService {
     private final PubSubAdmin pubSubAdmin;
     private final PubSubProperties pubSubProperties;
     private final ObjectMapper objectMapper;
+    private final PubSubReactiveFactory pubSubReactiveFactory;
 
     public CloudPubSubService(PubSubTemplate pubSubTemplate,
                               PubSubAdmin pubSubAdmin, PubSubProperties pubSubProperties,
@@ -35,30 +36,26 @@ public class CloudPubSubService implements PubSubService {
         this.pubSubTemplate = pubSubTemplate;
         this.pubSubAdmin = pubSubAdmin;
         this.pubSubProperties = pubSubProperties;
+        this.pubSubReactiveFactory = pubSubReactiveFactory;
         this.objectMapper = objectMapper;
     }
 
     @Override
-    public String publish(Message message) {
+    public Mono<Void> publish(Message message) {
         ByteString data = ByteString.copyFromUtf8(JsonUtils.writeValueAsString(message, objectMapper));
         PubsubMessage pubSubMessage = PubsubMessage.newBuilder().setData(data).build();
-        try {
-            return pubSubTemplate.publish(pubSubProperties.topic(), pubSubMessage).get();
-        } catch (InterruptedException e) {
-            throw new ServiceException(e);
-        } catch (ExecutionException e) {
-            throw new ServiceException(e);
-        }
+        return Mono.fromFuture(pubSubTemplate.publish(pubSubProperties.topic(), pubSubMessage).completable()).then();
     }
 
     @Override
-    public void retrieve(Consumer<Message> processor) {
-        pubSubTemplate.subscribe(pubSubProperties.subscriberId(), consumerAck -> {
-            String rawData = consumerAck.getPubsubMessage().getData().toStringUtf8();
-            consumerAck.ack();
-            Message message = JsonUtils.readValue(rawData, Message.class, objectMapper);
-            processor.accept(message);
-        });
+    public Flux<Message> retrieve() {
+        return pubSubReactiveFactory
+                .poll(pubSubProperties.subscriberId(), 1000L)
+                .map(ackMessage -> {
+                    String rawData = ackMessage.getPubsubMessage().getData().toStringUtf8();
+                    ackMessage.ack();
+                    return JsonUtils.readValue(rawData, Message.class, objectMapper);
+                });
     }
 
     @PostConstruct

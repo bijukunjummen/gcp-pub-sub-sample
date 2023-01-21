@@ -33,7 +33,8 @@ class CloudPubSubIntegrationTest {
     @Test
     void testPubSubBasicWiring() {
         Message message = new Message("id", "payload");
-        cloudPubSubService.publish(message);
+        StepVerifier.create(cloudPubSubService.publish(message))
+                .expectComplete();
 
         StepVerifier.create(cloudPubSubService.retrieve())
                 .expectNext(message)
