@@ -21,6 +21,9 @@ public class MessageProcessor {
     @PostConstruct
     void process() {
         pubSubService.retrieve(message -> {
+            if (message.id().equals("123")) {
+                throw new RuntimeException("throwing a deliberate exception");
+            }
             LOGGER.info("Processing message: {}", message.toString());
         });
         LOGGER.info("Triggered processing of messages");

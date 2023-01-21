@@ -54,10 +54,13 @@ public class CloudPubSubService implements PubSubService {
     @Override
     public void retrieve(Consumer<Message> processor) {
         pubSubTemplate.subscribe(pubSubProperties.subscriberId(), consumerAck -> {
-            String rawData = consumerAck.getPubsubMessage().getData().toStringUtf8();
-            consumerAck.ack();
-            Message message = JsonUtils.readValue(rawData, Message.class, objectMapper);
-            processor.accept(message);
+            try {
+                String rawData = consumerAck.getPubsubMessage().getData().toStringUtf8();
+                Message message = JsonUtils.readValue(rawData, Message.class, objectMapper);
+                processor.accept(message);
+            } finally {
+                consumerAck.ack();
+            }
         });
     }
 

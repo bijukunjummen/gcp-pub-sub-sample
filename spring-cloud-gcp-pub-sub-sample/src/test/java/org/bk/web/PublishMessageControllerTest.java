@@ -23,8 +23,7 @@ class PublishMessageControllerTest {
 
     @Test
     void testBasicPublish() {
-        when(pubSubService.publish(any(Message.class)))
-                .thenReturn(Mono.empty());
+        pubSubService.publish(any(Message.class));
 
         webTestClient.post().uri("/messages")
                 .body(fromValue(new Message("1", "one")))

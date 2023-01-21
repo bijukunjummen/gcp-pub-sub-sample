@@ -13,7 +13,8 @@ import org.testcontainers.containers.PubSubEmulatorContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import reactor.test.StepVerifier;
+
+import java.util.concurrent.CountDownLatch;
 
 @Testcontainers
 @SpringBootTest
@@ -31,14 +32,15 @@ class CloudPubSubIntegrationTest {
     private MessageProcessor messageProcessor;
 
     @Test
-    void testPubSubBasicWiring() {
+    void testPubSubBasicWiring() throws Exception {
         Message message = new Message("id", "payload");
         cloudPubSubService.publish(message);
 
-        StepVerifier.create(cloudPubSubService.retrieve())
-                .expectNext(message)
-                .thenCancel()
-                .verify();
+        CountDownLatch latch = new CountDownLatch(1);
+        cloudPubSubService.retrieve(msg -> {
+            latch.countDown();
+        });
+        latch.await();
     }
 
     static class PropertiesInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
