@@ -1,13 +1,12 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.6'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'org.springframework.boot' version '3.1.0'
+	id 'io.spring.dependency-management' version '1.1.0'
 	id 'java'
 	id 'com.google.cloud.tools.jib' version '3.2.1'
 }
 ext {
-	set('springCloudGcpVersion', "3.2.0")
-	set('springCloudVersion', "2021.0.1")
-	testContainersVersion = "1.17.0"
+	set('springCloudGcpVersion', "4.4.0")
+	set('springCloudVersion', "2022.0.3")
 }
 
 
@@ -27,9 +26,9 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
-	testImplementation("org.testcontainers:testcontainers:${testContainersVersion}")
-	testImplementation("org.testcontainers:gcloud:${testContainersVersion}")
-	testImplementation("org.testcontainers:junit-jupiter:${testContainersVersion}")
+	testImplementation("org.testcontainers:testcontainers")
+	testImplementation("org.testcontainers:gcloud")
+	testImplementation("org.testcontainers:junit-jupiter")
 }
 
 dependencyManagement {
