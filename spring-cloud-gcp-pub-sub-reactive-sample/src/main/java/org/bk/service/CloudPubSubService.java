@@ -44,7 +44,7 @@ public class CloudPubSubService implements PubSubService {
     public Mono<Void> publish(Message message) {
         ByteString data = ByteString.copyFromUtf8(JsonUtils.writeValueAsString(message, objectMapper));
         PubsubMessage pubSubMessage = PubsubMessage.newBuilder().setData(data).build();
-        return Mono.fromFuture(pubSubTemplate.publish(pubSubProperties.topic(), pubSubMessage).completable()).then();
+        return Mono.fromFuture(pubSubTemplate.publish(pubSubProperties.topic(), pubSubMessage)).then();
     }
 
     @Override
